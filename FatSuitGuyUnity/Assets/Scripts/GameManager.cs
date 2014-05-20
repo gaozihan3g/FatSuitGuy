@@ -4,6 +4,9 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;
+	public PlayerSpawnPoint[] playerSpawnPoints;
+	public Character[] players;
+
 
 	void Awake()
 	{
@@ -23,6 +26,11 @@ public class GameManager : MonoBehaviour {
 	void CreateProps()
 	{
 		PowerUpFactory.Instance.GenerateFood();
+	}
+
+	public void RespawnPlayer(int id)
+	{
+		playerSpawnPoints[id].RespawnPlayer();
 	}
 
 }

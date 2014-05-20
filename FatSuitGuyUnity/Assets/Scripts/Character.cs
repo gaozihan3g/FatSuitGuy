@@ -62,8 +62,9 @@ public class Character : MonoBehaviour {
 	{
 		if (!isControlled)
 			return;
+
 		//get input
-		Direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+		GetInput();
 
 		//if zero, early return
 		if (Direction == Vector2.zero)
@@ -76,9 +77,9 @@ public class Character : MonoBehaviour {
 
 	}
 
-	void FixedUpdate()
+	void GetInput()
 	{
-
+		Direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 	}
 
 	void OnCollisionEnter2D (Collision2D collision)
