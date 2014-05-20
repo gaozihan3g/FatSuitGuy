@@ -2,12 +2,15 @@
 using System.Collections;
 
 public class Character : MonoBehaviour {
-	
+
+	public int playerID;
 	public float acceleration;
 	public float maxSpeed;
 	public float rotationSpeed;
 	public Vector2 direction;
 	public bool isControlled;
+	public float explosionForce;
+	public float sizeLimit = 2f;
 	
 	public float MaxSpeed {
 		get {
@@ -26,6 +29,19 @@ public class Character : MonoBehaviour {
 		set {
 			rigidbody2D.mass = value;
 		}
+	}
+
+	public float Size {
+		get {
+			return transform.localScale.x;
+		}
+
+		set {
+			if (value >= sizeLimit)
+				return;
+			transform.localScale = new Vector3(value, value, value);
+		}
+
 	}
 
 	public Vector2 Direction {
@@ -54,6 +70,7 @@ public class Character : MonoBehaviour {
 			return;
 		//move
 		transform.Translate(Vector3.up * acceleration * Time.deltaTime);
+//		rigidbody2D.AddForce(transform.up * acceleration * Time.deltaTime);
 		//rotate
 		transform.rotation = Quaternion.LookRotation(Vector3.forward, Direction);
 
@@ -66,8 +83,17 @@ public class Character : MonoBehaviour {
 
 	void OnCollisionEnter2D (Collision2D collision)
 	{
-		print("Collide!");
-		rigidbody2D.AddForceAtPosition(-Direction * 100f, collision.contacts[0].point);
+		if (collision.gameObject.tag == "Player")
+		{
+			rigidbody2D.AddForce(-Direction.normalized * explosionForce);
+			collision.rigidbody.AddForce(Direction.normalized * explosionForce);
+		}
+	}
+
+	void Grow()
+	{
+		print("grow!");
+		Size += .2f;
 	}
 
 }
