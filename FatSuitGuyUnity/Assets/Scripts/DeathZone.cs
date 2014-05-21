@@ -12,7 +12,7 @@ public class DeathZone : MonoBehaviour {
 			//player play death animation
 
 			//respawn player
-			GameManager.Instance.RespawnPlayer(c.playerID);
+			GameManager.Instance.RespawnPlayer(c.playerID, c.networkView.viewID);
 
 			Destroy(other.gameObject);
 		}
