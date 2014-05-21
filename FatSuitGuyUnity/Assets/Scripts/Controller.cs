@@ -40,5 +40,6 @@ public class Controller : MonoBehaviour {
 	[RPC]
 	void GetDirection(Vector3 dir)
 	{
+
 	}
 }

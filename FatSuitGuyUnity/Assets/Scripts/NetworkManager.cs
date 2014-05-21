@@ -4,7 +4,7 @@ using System.Collections;
 public class NetworkManager : MonoBehaviour {
 
 	public string ipAddress = "127.0.0.1";
-	public int port = 25000;
+	public int port = 5000;
 	public GameObject controllerPrefab;
 
 	void StartServer()
