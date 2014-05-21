@@ -8,7 +8,7 @@ public class Character : MonoBehaviour {
 	public float maxSpeed;
 	public float rotationSpeed;
 	public Vector2 direction;
-	public bool isControlled;
+//	public bool isControlled;
 	public float explosionForce;
 	public float sizeLimit = 2f;
 	
@@ -60,11 +60,11 @@ public class Character : MonoBehaviour {
 
 	void Update()
 	{
-		if (!isControlled)
-			return;
+//		if (!isControlled)
+//			return;
 
 		//get input
-		GetInput();
+//		GetInput();
 
 		//if zero, early return
 		if (Direction == Vector2.zero)
@@ -95,6 +95,12 @@ public class Character : MonoBehaviour {
 	{
 		print("grow!");
 		Size += .2f;
+	}
+
+	[RPC]
+	void GetDirection(Vector3 dir)
+	{
+		Direction = dir;
 	}
 
 }
