@@ -11,6 +11,7 @@ public class Character : MonoBehaviour {
 //	public bool isControlled;
 	public float explosionForce;
 	public float sizeLimit = 2f;
+	public	float	curMaxSpeed;
 	
 	public float MaxSpeed {
 		get {
@@ -70,7 +71,7 @@ public class Character : MonoBehaviour {
 		if (Direction == Vector2.zero)
 			return;
 		//move
-		transform.Translate(Vector3.up * acceleration * Time.deltaTime);
+		transform.Translate(Vector3.up * curMaxSpeed * acceleration * Time.deltaTime);
 //		rigidbody2D.AddForce(transform.up * acceleration * Time.deltaTime);
 		//rotate
 		transform.rotation = Quaternion.LookRotation(Vector3.forward, Direction);
@@ -98,9 +99,10 @@ public class Character : MonoBehaviour {
 	}
 
 	[RPC]
-	void GetDirection(Vector3 dir)
+	void ChangeDirection(Vector3 dir)
 	{
 		Direction = dir;
+		curMaxSpeed = Direction.magnitude / new Vector3(1, 1, 0).magnitude * maxSpeed;
 	}
 
 }
