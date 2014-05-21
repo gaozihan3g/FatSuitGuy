@@ -39,10 +39,10 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>/Applications/Unity/Unity copy 2.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>/Applications/Unity/Unity copy 2.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -50,7 +50,6 @@
      <Compile Include="Assets\Scripts\Controller.cs" />
      <Compile Include="Assets\Scripts\DeathZone.cs" />
      <Compile Include="Assets\Scripts\Food.cs" />
-     <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\InputManager.cs" />
      <Compile Include="Assets\Scripts\NetworkManager.cs" />
      <Compile Include="Assets\Scripts\PlayerSpawnPoint.cs" />
