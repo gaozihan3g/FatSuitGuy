@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Food : MonoBehaviour {
+public class AddHP : MonoBehaviour {
 
 	public float rotationSpeed = 1f;
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		other.gameObject.SendMessage("Grow");
-		PowerUpFactory.Instance.foodNum--;
+		other.gameObject.SendMessage("GetHP");
+		PowerUpFactory.Instance.addHPNum--;
 		Destroy(gameObject);
 	}
 

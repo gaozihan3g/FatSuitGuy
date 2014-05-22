@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class PlayerSpawnPoint : MonoBehaviour {
-	
-	public GameObject playerPrefab;
+
+	public	GameObject	player;
 	public int id;
 //	public bool isControlled;
 	public float respawnDelay = 3;
@@ -13,26 +13,35 @@ public class PlayerSpawnPoint : MonoBehaviour {
 //		SpawnPlayer();
 	}
 
-	public void SpawnPlayer(NetworkViewID viewID)
+	public void SpawnPlayer(GameObject obj, NetworkViewID viewID)
 	{
-		GameObject go = Instantiate(playerPrefab, transform.position, Quaternion.identity) as GameObject;
+		GameObject go = Instantiate(obj, transform.position, Quaternion.identity) as GameObject;
 		go.name += "_" + id;
 		go.GetComponent<NetworkView>().viewID = viewID;
 		Character c = go.GetComponent<Character>();
 //		c.isControlled = isControlled;
 		c.playerID = id;
 		GameManager.Instance.players[id] = c;
+		GUIManager.Instance.AddCharacter(c);
+		player = go;
 	}
 
-	public void RespawnPlayer(NetworkViewID viewID)
+	public void RespawnPlayer()
 	{
-		StartCoroutine(_RespawnPlayer(viewID));
+		StartCoroutine(_RespawnPlayer());
 	}
 
-	IEnumerator _RespawnPlayer(NetworkViewID viewID)
+	IEnumerator _RespawnPlayer()
 	{
 		yield return new WaitForSeconds(respawnDelay);
-		SpawnPlayer(viewID);
+		ResetPlayer(player);
+	}
+
+	void ResetPlayer (GameObject player) {
+		Debug.Log ("Back to work!!!!!!!!!");
+		player.transform.position = transform.position;
+		player.renderer.enabled = true;
+		player.GetComponent<Character>().isMoveFixed = false;
 	}
 
 }

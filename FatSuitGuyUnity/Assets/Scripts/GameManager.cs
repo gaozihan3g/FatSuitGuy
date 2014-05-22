@@ -6,12 +6,14 @@ public class GameManager : MonoBehaviour {
 	public static GameManager Instance;
 	public PlayerSpawnPoint[] playerSpawnPoints;
 	public Character[] players;
+	public GameObject[] playerPrefabs;
 
 	public float totalTime;
 	private float timer;
 
 	public int[] scores;
 	public int numOfPlayers = 0;
+	public	int	currentNumOfPlayers;
 
 
 	void Awake()
@@ -22,6 +24,7 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		InvokeRepeating("CreateProps", 1f, 2f);
+		InvokeRepeating("CreatePropsAddHP", 10f, 20f);
 	}
 	
 	// Update is called once per frame
@@ -33,15 +36,31 @@ public class GameManager : MonoBehaviour {
 	{
 		PowerUpFactory.Instance.GenerateFood();
 	}
-
-	public void RespawnPlayer(int id, NetworkViewID viewID)
+	
+	void CreatePropsAddHP()
 	{
-		playerSpawnPoints[id].RespawnPlayer(viewID);
+		PowerUpFactory.Instance.GenerateAddHP();
+	}
+
+	public void RespawnPlayer(int id)
+	{
+		playerSpawnPoints[id].RespawnPlayer();
 	}
 
 	public void SpawnPlayer()
 	{
 
+	}
+	
+	public void CheckWin () {
+		if(currentNumOfPlayers == 1) {
+			for(int i = 0; i < numOfPlayers; i ++) {
+				if(players[i].GetComponent<Character>().playerCurHP > 0) {
+					GUIManager.Instance.winPlayerID = i + 1;
+				}
+			}
+			GUIManager.Instance.isEnd = true;
+		}
 	}
 
 	void OnGUI()
@@ -63,8 +82,10 @@ public class GameManager : MonoBehaviour {
 //		print ("SetupPlayer!!!");
 //		players[numOfPlayers].networkView.viewID = id;
 //		numOfPlayers++;
-		playerSpawnPoints[numOfPlayers].SpawnPlayer(viewID);
+		GameObject obj = playerPrefabs[Random.Range(0, playerPrefabs.Length)];
+		playerSpawnPoints[numOfPlayers].SpawnPlayer(obj, viewID);
 		numOfPlayers++;
+		currentNumOfPlayers = numOfPlayers;
 	}
 
 }

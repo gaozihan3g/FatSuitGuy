@@ -12,6 +12,10 @@ public class Character : MonoBehaviour {
 	public float explosionForce;
 	public float sizeLimit = 2f;
 	public	float	curMaxSpeed;
+	public	float	playerMaxHP = 10;
+	public	float	playerCurHP = 10;
+	public	Texture2D	avatar;
+	public	bool	isMoveFixed;
 	
 	public float MaxSpeed {
 		get {
@@ -56,7 +60,7 @@ public class Character : MonoBehaviour {
 
 	void Start()
 	{
-
+		playerCurHP = playerMaxHP;
 	}
 
 	void Update()
@@ -98,11 +102,32 @@ public class Character : MonoBehaviour {
 		Size += .2f;
 	}
 
+	void GetHP() {
+		if(playerCurHP > 0) {
+			playerCurHP ++;
+		}
+	}
+	
+	public void LoseHP () {
+		playerCurHP --;
+//		Debug.Log (playerCurHP);
+		CheckDead();
+	}
+	
+	void CheckDead () {
+		if(playerCurHP <= 0) {
+			GameManager.Instance.currentNumOfPlayers --;
+			GameManager.Instance.CheckWin();
+		}
+	}
+
 	[RPC]
-	void ChangeDirection(Vector3 dir)
+	public void ChangeDirection(Vector3 dir)
 	{
-		Direction = dir;
-		curMaxSpeed = Direction.magnitude / new Vector3(1, 1, 0).magnitude * maxSpeed;
+		if(!isMoveFixed) {
+			Direction = dir;
+			curMaxSpeed = Direction.magnitude / new Vector3(1, 1, 0).magnitude * maxSpeed;
+		}
 	}
 
 }
