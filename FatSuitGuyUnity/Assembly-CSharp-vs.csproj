@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\NetworkManager.cs" />
      <Compile Include="Assets\Scripts\PlayerSpawnPoint.cs" />
      <Compile Include="Assets\Scripts\PowerUpFactory.cs" />
+     <Compile Include="Assets\Stage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

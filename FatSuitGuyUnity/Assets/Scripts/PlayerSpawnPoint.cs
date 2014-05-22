@@ -19,8 +19,8 @@ public class PlayerSpawnPoint : MonoBehaviour {
 		go.name += "_" + id;
 		go.GetComponent<NetworkView>().viewID = viewID;
 		Character c = go.GetComponent<Character>();
-//		c.isControlled = isControlled;
 		c.playerID = id;
+		c.initPosition = transform.position;
 		GameManager.Instance.players[id] = c;
 		GUIManager.Instance.AddCharacter(c);
 		player = go;
@@ -43,5 +43,5 @@ public class PlayerSpawnPoint : MonoBehaviour {
 		player.renderer.enabled = true;
 		player.GetComponent<Character>().isMoveFixed = false;
 	}
-
+	
 }

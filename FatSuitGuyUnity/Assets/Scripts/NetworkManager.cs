@@ -15,6 +15,7 @@ public class NetworkManager : MonoBehaviour {
 	void OnServerInitialized()
 	{
 		Debug.Log("Server Initialized");
+		GameManager.Instance.GameStart();
 	}
 
 	void JoinServer()
