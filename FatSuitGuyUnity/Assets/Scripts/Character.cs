@@ -103,7 +103,7 @@ public class Character : MonoBehaviour {
 	}
 
 	void GetHP() {
-		if(playerCurHP > 0) {
+		if(playerCurHP > 0 && playerCurHP < 10) {
 			playerCurHP ++;
 		}
 	}
