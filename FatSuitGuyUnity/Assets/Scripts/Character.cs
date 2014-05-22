@@ -3,15 +3,15 @@ using System.Collections;
 
 public class Character : MonoBehaviour {
 
-	public int playerID;
-	public float acceleration;
-	public float maxSpeed;
-	public float rotationSpeed;
-	public Vector2 direction;
-//	public bool isControlled;
-	public float explosionForce;
-	public float sizeLimit = 2f;
-	public	float	curMaxSpeed;
+	public int						playerID;
+	
+	public float					maxSpeed;
+	public float					bumpAcceleration;
+//	public float					explosionForce;
+	public Vector2					direction;
+	public float					sizeLimit = 2f;
+	public Vector2					initPosition;
+	public bool						canBeControlled = true;
 	
 	public float MaxSpeed {
 		get {
@@ -38,8 +38,6 @@ public class Character : MonoBehaviour {
 		}
 
 		set {
-			if (value >= sizeLimit)
-				return;
 			transform.localScale = new Vector3(value, value, value);
 		}
 
@@ -61,21 +59,17 @@ public class Character : MonoBehaviour {
 
 	void Update()
 	{
-//		if (!isControlled)
-//			return;
-
-		//get input
-//		GetInput();
-
+		if (!canBeControlled)
+			return;
 		//if zero, early return
 		if (Direction == Vector2.zero)
 			return;
-		//move
-		transform.Translate(Vector3.up * curMaxSpeed * acceleration * Time.deltaTime);
-//		rigidbody2D.AddForce(transform.up * acceleration * Time.deltaTime);
-		//rotate
-		transform.rotation = Quaternion.LookRotation(Vector3.forward, Direction);
 
+		//move
+		Move();
+
+		//rotate
+		Rotate();
 	}
 
 	void GetInput()
@@ -87,22 +81,60 @@ public class Character : MonoBehaviour {
 	{
 		if (collision.gameObject.tag == "Player")
 		{
-			rigidbody2D.AddForce(-Direction.normalized * explosionForce);
-			collision.rigidbody.AddForce(Direction.normalized * explosionForce);
+			Vector2 relativeDirection = (collision.gameObject.transform.position - transform.position).normalized;
+//			rigidbody2D.AddForce(-relativeDirection * Mass * bumpAcceleration);
+			collision.rigidbody.AddForce(relativeDirection * Mass * bumpAcceleration);
 		}
 	}
 
 	void Grow()
 	{
-		print("grow!");
+		if (Size >= sizeLimit)
+			return;
 		Size += .2f;
+		Mass += 1f;
 	}
+
+	void Move()
+	{
+		transform.Translate(Vector3.up * Direction.magnitude * MaxSpeed * Time.deltaTime);
+	}
+
+	void Rotate()
+	{
+		transform.rotation = Quaternion.LookRotation(Vector3.forward, Direction);
+	}
+	
+	void Reset()
+	{
+		StartCoroutine(_Reset());
+	}
+
+	IEnumerator _Reset()
+	{
+		canBeControlled = false;
+		yield return new WaitForSeconds(3f);
+		//reset position
+		transform.position = initPosition;
+		
+		//reset size
+		transform.localScale = new Vector3(1f, 1f, 1f);
+		
+		//reset mass
+		Mass = 1f;
+
+		canBeControlled = true;
+		//TODO: any other things need to be reset?
+	}
+
+
 
 	[RPC]
 	void ChangeDirection(Vector3 dir)
 	{
 		Direction = dir;
-		curMaxSpeed = Direction.magnitude / new Vector3(1, 1, 0).magnitude * maxSpeed;
+//		curMaxSpeed = Direction.magnitude / new Vector3(1, 1, 0).magnitude * maxSpeed;
+		// not neccessary, changed in the move function
 	}
 
 }

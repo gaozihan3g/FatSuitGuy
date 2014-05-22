@@ -15,12 +15,13 @@ public class PlayerSpawnPoint : MonoBehaviour {
 
 	public void SpawnPlayer(NetworkViewID viewID)
 	{
+		print ("SpawnPlayer from SpawnPoint");
 		GameObject go = Instantiate(playerPrefab, transform.position, Quaternion.identity) as GameObject;
 		go.name += "_" + id;
 		go.GetComponent<NetworkView>().viewID = viewID;
 		Character c = go.GetComponent<Character>();
-//		c.isControlled = isControlled;
 		c.playerID = id;
+		c.initPosition = transform.position;
 		GameManager.Instance.players[id] = c;
 	}
 
@@ -34,5 +35,5 @@ public class PlayerSpawnPoint : MonoBehaviour {
 		yield return new WaitForSeconds(respawnDelay);
 		SpawnPlayer(viewID);
 	}
-
+	
 }

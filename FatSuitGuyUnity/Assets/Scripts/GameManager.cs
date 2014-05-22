@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		InvokeRepeating("CreateProps", 1f, 2f);
+
 	}
 	
 	// Update is called once per frame
@@ -44,6 +44,11 @@ public class GameManager : MonoBehaviour {
 
 	}
 
+	public void GameStart()
+	{
+		InvokeRepeating("CreateProps", 1f, 2f);
+	}
+
 	void OnGUI()
 	{
 		int i = 0;
@@ -57,12 +62,7 @@ public class GameManager : MonoBehaviour {
 	public void SetupPlayer(NetworkViewID viewID)
 	{
 		print ("SetupPlayer from GameManager");
-//		GameObject go = Instantiate(padPrefab, initPositions[numberOfPlayers], Quaternion.identity) as GameObject;
-//		go.GetComponent<NetworkView>().viewID = id;
-//		numberOfPlayers++;
-//		print ("SetupPlayer!!!");
-//		players[numOfPlayers].networkView.viewID = id;
-//		numOfPlayers++;
+
 		playerSpawnPoints[numOfPlayers].SpawnPlayer(viewID);
 		numOfPlayers++;
 	}
