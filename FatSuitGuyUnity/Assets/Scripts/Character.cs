@@ -114,6 +114,7 @@ public class Character : MonoBehaviour {
 
 	IEnumerator _Reset()
 	{
+		LoseHP();
 		canBeControlled = false;
 		yield return new WaitForSeconds(3f);
 		//reset position
