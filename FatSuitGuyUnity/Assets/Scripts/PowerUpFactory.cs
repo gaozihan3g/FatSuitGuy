@@ -6,6 +6,9 @@ public class PowerUpFactory : MonoBehaviour {
 	public static PowerUpFactory Instance;
 	public float radius;
 	public GameObject foodPrefab;
+	public GameObject addHPPrefab;
+	public	int	foodNum;
+	public	int	addHPNum;
 
 	void Awake()
 	{
@@ -14,7 +17,18 @@ public class PowerUpFactory : MonoBehaviour {
 
 	public void GenerateFood()
 	{
-		Instantiate(foodPrefab, Random.insideUnitCircle * radius, Quaternion.identity);
+		if(foodNum < 5) {
+			Instantiate(foodPrefab, Random.insideUnitCircle * radius, Quaternion.identity);
+			foodNum++;
+		}
+	}
+	
+	public void GenerateAddHP()
+	{
+		if(foodNum < 5) {
+			Instantiate(addHPPrefab, Random.insideUnitCircle * radius, Quaternion.identity);
+			addHPNum++;
+		}
 	}
 
 	void OnDrawGizmos() {

@@ -4,14 +4,17 @@ using System.Collections;
 public class Character : MonoBehaviour {
 
 	public int						playerID;
-	
 	public float					maxSpeed;
 	public float					bumpAcceleration;
-//	public float					explosionForce;
 	public Vector2					direction;
 	public float					sizeLimit = 2f;
 	public Vector2					initPosition;
 	public bool						canBeControlled = true;
+	public float					playerMaxHP = 10;
+	public float					playerCurHP = 10;
+	public Texture2D				avatar;
+	public bool						isMoveFixed;
+
 	
 	public float MaxSpeed {
 		get {
@@ -54,7 +57,7 @@ public class Character : MonoBehaviour {
 
 	void Start()
 	{
-
+		playerCurHP = playerMaxHP;
 	}
 
 	void Update()
@@ -82,7 +85,6 @@ public class Character : MonoBehaviour {
 		if (collision.gameObject.tag == "Player")
 		{
 			Vector2 relativeDirection = (collision.gameObject.transform.position - transform.position).normalized;
-//			rigidbody2D.AddForce(-relativeDirection * Mass * bumpAcceleration);
 			collision.rigidbody.AddForce(relativeDirection * Mass * bumpAcceleration);
 		}
 	}
@@ -99,7 +101,7 @@ public class Character : MonoBehaviour {
 	{
 		transform.Translate(Vector3.up * Direction.magnitude * MaxSpeed * Time.deltaTime);
 	}
-
+	
 	void Rotate()
 	{
 		transform.rotation = Quaternion.LookRotation(Vector3.forward, Direction);
@@ -127,14 +129,29 @@ public class Character : MonoBehaviour {
 		//TODO: any other things need to be reset?
 	}
 
-
+	void GetHP() {
+		if(playerCurHP > 0 && playerCurHP < 10) {
+			playerCurHP ++;
+		}
+	}
+	
+	public void LoseHP () {
+		playerCurHP --;
+//		Debug.Log (playerCurHP);
+		CheckDead();
+	}
+	
+	void CheckDead () {
+		if(playerCurHP <= 0) {
+			GameManager.Instance.currentNumOfPlayers --;
+			GameManager.Instance.CheckWin();
+		}
+	}
 
 	[RPC]
-	void ChangeDirection(Vector3 dir)
+	public void ChangeDirection(Vector3 dir)
 	{
 		Direction = dir;
-//		curMaxSpeed = Direction.magnitude / new Vector3(1, 1, 0).magnitude * maxSpeed;
-		// not neccessary, changed in the move function
 	}
 
 }
