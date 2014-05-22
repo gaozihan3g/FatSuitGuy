@@ -31,3 +31,5 @@ FatSuitGuyUnity/FatSuitGuyUnity.sln
 FatSuitGuyUnity/Assembly-CSharp-vs.csproj
 
 FatSuitGuyUnity/Assembly-CSharp.csproj
+
+*.userprefs
