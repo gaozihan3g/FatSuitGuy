@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class GUIManager : MonoBehaviour {
 	public static GUIManager Instance;
 	public	int			characterNum;
-	public	List<Texture2D>	avatars = new List<Texture2D>();
+//	public	List<Texture2D>	avatars = new List<Texture2D>();
 	public	Texture2D	HPBar;
 	public	List<Character>	characters = new List<Character>();
 	private	float		screenW;
