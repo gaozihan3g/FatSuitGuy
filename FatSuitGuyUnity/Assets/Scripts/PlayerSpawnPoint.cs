@@ -41,7 +41,7 @@ public class PlayerSpawnPoint : MonoBehaviour {
 		Debug.Log ("Back to work!!!!!!!!!");
 		player.transform.position = transform.position;
 		player.renderer.enabled = true;
-		player.GetComponent<Character>().isMoveFixed = false;
+		player.GetComponent<Character>().canBeControlled = true;
 	}
 	
 }

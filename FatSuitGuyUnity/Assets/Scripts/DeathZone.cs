@@ -16,12 +16,11 @@ public class DeathZone : MonoBehaviour {
 
 			//respawn player
 			GameManager.Instance.RespawnPlayer(c.playerID);
-			
-			other.GetComponent<Character>().ChangeDirection(new Vector3(0, 0, 0));
-			other.transform.position = new Vector3(1000, 1000, 1000);
-			other.renderer.enabled = false;
-			c.isMoveFixed = true;
-//			Destroy(other.gameObject);
+
+			c.ChangeDirection(new Vector3(0, 0, 0));
+			c.transform.position = new Vector3(1000, 1000, 1000);
+			c.renderer.enabled = false;
+			c.canBeControlled = false;
 		}
 	}
 }

@@ -7,13 +7,21 @@ public class Character : MonoBehaviour {
 	public float					maxSpeed;
 	public float					bumpAcceleration;
 	public Vector2					direction;
-	public float					sizeLimit = 2f;
+
 	public Vector2					initPosition;
 	public bool						canBeControlled = true;
 	public float					playerMaxHP = 10;
 	public float					playerCurHP = 10;
 	public Texture2D				avatar;
-	public bool						isMoveFixed;
+
+	public float					minSize = 1f;
+	public float					maxSize = 2f;
+
+	public float					sizeIncreaseAmount = 0.2f;
+	public float					sizeDecreaseAmount = 0.1f;
+
+	public float					massIncreaseAmount = 0.1f;
+	public float					massDecreaseAmount = 0.05f;
 
 	public float MaxSpeed {
 		get {
@@ -83,17 +91,27 @@ public class Character : MonoBehaviour {
 	{
 		if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Ball")
 		{
-			Vector2 relativeDirection = (collision.gameObject.transform.position - transform.position).normalized;
-			collision.rigidbody.AddForce(relativeDirection * Mass * bumpAcceleration);
+			GameObject other = collision.gameObject;
+			Vector2 relativeDirection = (other.transform.position - transform.position).normalized;
+			other.rigidbody.AddForce(relativeDirection * Mass * bumpAcceleration);
+			other.SendMessage("Drop");
 		}
 	}
 
 	void Grow()
 	{
-		if (Size >= sizeLimit)
+		if (Size >= maxSize)
 			return;
-		Size += .2f;
-		Mass += 1f;
+		Size += sizeIncreaseAmount;
+		Mass += massIncreaseAmount;
+	}
+
+	void Drop()
+	{
+		if (Size <= minSize)
+			return;
+		Size -= sizeDecreaseAmount;
+		Mass -= massDecreaseAmount;
 	}
 
 	void Move()
