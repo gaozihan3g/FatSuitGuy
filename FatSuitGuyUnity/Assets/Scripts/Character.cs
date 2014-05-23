@@ -93,7 +93,7 @@ public class Character : MonoBehaviour {
 		{
 			GameObject other = collision.gameObject;
 			Vector2 relativeDirection = (other.transform.position - transform.position).normalized;
-			other.rigidbody.AddForce(relativeDirection * Mass * bumpAcceleration);
+			other.rigidbody2D.AddForce(relativeDirection * Mass * bumpAcceleration);
 			other.SendMessage("Drop");
 		}
 	}
