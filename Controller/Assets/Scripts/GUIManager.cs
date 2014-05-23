@@ -4,11 +4,19 @@ using System.Collections;
 public class GUIManager : MonoBehaviour {
 	public	static	GUIManager	Instance;
 	public	GUISkin		clientSkin;
-	public	bool		showLoginGUI = true;
 	private	float 		width;
 	private	float 		height;
 	private string		IPAddress = "127.0.0.1";//127.0.0.1   192.168.10.103
-	public	bool		disconnected;
+	
+	public enum GUIState {
+		Login, 
+		ChooseMode, 
+		Game, 
+		End,
+		Disconnect, 
+	}
+	
+	public GUIState guiState = GUIState.Login;
 
 
 	void Awake()
@@ -33,10 +41,14 @@ public class GUIManager : MonoBehaviour {
 	
 	}
 
+	void ChooseMode (string modeName) {
+		CharacterControl.Instance.SendModeName(modeName);
+	}
+
 
 	void OnGUI () {
 		GUI.skin = clientSkin;
-		if(showLoginGUI) {
+		if(guiState == GUIState.Login) {
 			float btnW = Screen.width * 0.1f;
 			float btnH = Screen.height * 0.1f;
 			//Login: 
@@ -47,9 +59,13 @@ public class GUIManager : MonoBehaviour {
 			if(GUI.Button(new Rect(width * 0.65f, height * 0.5f, btnW, btnH), "")) {
 				NetworkManager.Instance.ConnectToServer(IPAddress);
 			}
-		}
-		
-		if(disconnected) {
+		}else if (guiState == GUIState.ChooseMode) {
+			if(GUI.Button(new Rect(0, 0, width * 0.5f, height), "Normal")) {
+				ChooseMode("Normal");
+			}else if(GUI.Button(new Rect(width * 0.5f, 0, width * 0.5f, height), "Football")) {
+				ChooseMode("Football");
+			}
+		}else if(guiState == GUIState.Disconnect) {
 			GUI.Label(new Rect(0, 0, Screen.width, Screen.height), "Re-Login", "ReLoginBtn");
 			if(GUI.Button(new Rect(0, 0, Screen.width, Screen.height), "")) {
 				NetworkManager.Instance.ConnectToServer(IPAddress);

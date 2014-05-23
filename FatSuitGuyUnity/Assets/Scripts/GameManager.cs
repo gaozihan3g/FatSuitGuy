@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour {
 	public int[] scores;
 	public int numOfPlayers = 0;
 	public	int	currentNumOfPlayers;
+	public	GameObject	wallsPrefab;
+	public	GameObject	ballPrefab;
+	public	GameObject	doorsPrefab;
 
 
 	void Awake()
@@ -57,7 +60,7 @@ public class GameManager : MonoBehaviour {
 					GUIManager.Instance.winPlayerID = i + 1;
 				}
 			}
-			GUIManager.Instance.isEnd = true;
+			GUIManager.Instance.guiState = GUIManager.GUIState.End;
 		}
 	}
 
@@ -65,6 +68,7 @@ public class GameManager : MonoBehaviour {
 	{
 		InvokeRepeating("CreateProps", 1f, 2f);
 		InvokeRepeating("CreatePropsAddHP", 10f, 20f);
+		GUIManager.Instance.guiState = GUIManager.GUIState.Game;
 	}
 
 	void OnGUI()
@@ -86,6 +90,13 @@ public class GameManager : MonoBehaviour {
 
 		numOfPlayers++;
 		currentNumOfPlayers = numOfPlayers;
+	}
+
+	public void ChangeModeToFoodball () {
+		GameObject walls = Instantiate(wallsPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+		GameObject ball = Instantiate(ballPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+		GameObject doors = Instantiate(doorsPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+
 	}
 
 }

@@ -7,9 +7,12 @@ public class Food : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		other.gameObject.SendMessage("Grow");
-		PowerUpFactory.Instance.foodNum--;
-		Destroy(gameObject);
+		if (other.tag == "Player")
+		{
+			other.gameObject.SendMessage("Grow");
+			PowerUpFactory.Instance.foodNum--;
+			Destroy(gameObject);
+		}
 	}
 
 	void Update()

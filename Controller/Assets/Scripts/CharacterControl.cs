@@ -28,4 +28,13 @@ public class CharacterControl : MonoBehaviour {
 	void ChangeDirection (Vector3 pos) {
 
 	}
+
+	public void SendModeName (string modeName) {
+		networkView.RPC("ChangeMode", RPCMode.Server, modeName);
+	}
+	
+	[RPC]
+	void ChangeMode (string modeName) {
+		
+	}
 }

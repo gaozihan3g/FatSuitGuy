@@ -15,7 +15,6 @@ public class Character : MonoBehaviour {
 	public Texture2D				avatar;
 	public bool						isMoveFixed;
 
-	
 	public float MaxSpeed {
 		get {
 			return maxSpeed;
@@ -82,7 +81,7 @@ public class Character : MonoBehaviour {
 
 	void OnCollisionEnter2D (Collision2D collision)
 	{
-		if (collision.gameObject.tag == "Player")
+		if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Ball")
 		{
 			Vector2 relativeDirection = (collision.gameObject.transform.position - transform.position).normalized;
 			collision.rigidbody.AddForce(relativeDirection * Mass * bumpAcceleration);
@@ -149,8 +148,7 @@ public class Character : MonoBehaviour {
 		}
 	}
 
-	[RPC]
-	public void ChangeDirection(Vector3 dir)
+	public void GetDirection(Vector3 dir)
 	{
 		Direction = dir;
 	}

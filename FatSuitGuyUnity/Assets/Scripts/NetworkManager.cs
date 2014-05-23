@@ -2,10 +2,15 @@
 using System.Collections;
 
 public class NetworkManager : MonoBehaviour {
-
+	public static NetworkManager Instance;
 	public string ipAddress = "127.0.0.1";
 	public int port = 5000;
 	public GameObject controllerPrefab;
+	
+	void Awake()
+	{
+		Instance = this;
+	}
 
 	void StartServer()
 	{
@@ -58,4 +63,13 @@ public class NetworkManager : MonoBehaviour {
 		print ("SetupPlayer from NetworkManager");
 		GameManager.Instance.SetupPlayer(id);
     }
+
+	public void SendModeName(string modeName) {
+		networkView.RPC("ChangeMode", RPCMode.Others, modeName);
+	}
+
+	[RPC]
+	void ChangeMode (string modeName) {
+
+	}
 }

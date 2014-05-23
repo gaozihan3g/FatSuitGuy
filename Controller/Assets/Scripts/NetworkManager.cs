@@ -38,9 +38,8 @@ public class NetworkManager : MonoBehaviour {
 	
 	void OnConnectedToServer () {
 		Debug.Log("Client Connected");
-		GUIManager.Instance.showLoginGUI = false;
-		GUIManager.Instance.disconnected = false;
-		ControllerManager.Instance.controllerState = ControllerManager.ControllerState.Begin;
+		GUIManager.Instance.guiState = GUIManager.GUIState.ChooseMode;
+		ControllerManager.Instance.controllerState = ControllerManager.ControllerState.ChooseMode;
 		AddtoServer();
 	}
 	
@@ -58,6 +57,12 @@ public class NetworkManager : MonoBehaviour {
 		character.networkView.viewID = viewID;
 	}
 	
+	[RPC]
+	void ChangeMode (string modeName) {
+		GUIManager.Instance.guiState = GUIManager.GUIState.Game;
+		ControllerManager.Instance.controllerState = ControllerManager.ControllerState.Game;
+	}
+	
 	void OnFailedToConnect(NetworkConnectionError error) {
 		Debug.Log("Could not connect to server: "+ error);
 	}
@@ -67,8 +72,9 @@ public class NetworkManager : MonoBehaviour {
 			Debug.Log("Lost connection to the server");
 		else
 			Debug.Log("Successfully diconnected from the server");
-
-		GUIManager.Instance.disconnected = true;
+		
+		GUIManager.Instance.guiState = GUIManager.GUIState.Disconnect;
+		ControllerManager.Instance.controllerState = ControllerManager.ControllerState.Disconnect;
 	}
 }
 

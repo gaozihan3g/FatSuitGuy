@@ -17,8 +17,10 @@ public class ControllerManager : MonoBehaviour {
 	public enum ControllerState
 	{
 		Login,
-		Begin,
+		ChooseMode, 
+		Game,
 		End,
+		Disconnect, 
 	}
 	public	ControllerState		controllerState = ControllerState.Login;
 	
@@ -44,7 +46,7 @@ public class ControllerManager : MonoBehaviour {
 		switch(controllerState) {
 		case ControllerState.Login:
 			break;
-		case ControllerState.Begin:
+		case ControllerState.Game:
 			CheckFingerPosition ();
 			break;
 		case ControllerState.End:
@@ -89,9 +91,11 @@ public class ControllerManager : MonoBehaviour {
 	}
 
 	void OnGUI () {
-		if(showController) {
-			GUI.DrawTexture(new Rect(padPos.x - padSize * 0.5f, padPos.y - padSize * 0.5f, padSize, padSize), padTexture);
-			GUI.DrawTexture(new Rect(joystickPos.x - joystickSize * 0.5f, joystickPos.y - joystickSize * 0.5f, joystickSize, joystickSize), joystickTexture);
+		if(controllerState == ControllerState.Game) {
+			if(showController) {
+				GUI.DrawTexture(new Rect(padPos.x - padSize * 0.5f, padPos.y - padSize * 0.5f, padSize, padSize), padTexture);
+				GUI.DrawTexture(new Rect(joystickPos.x - joystickSize * 0.5f, joystickPos.y - joystickSize * 0.5f, joystickSize, joystickSize), joystickTexture);
+			}
 		}
 	}
 
